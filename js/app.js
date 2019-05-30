@@ -1,32 +1,35 @@
 
 (function (window) {
-	var todos = [
-		// {
-		// 	id: 0,
-		// 	title: '吃饭',
-		// 	completed: true
-		// },
-		// {
-		// 	id: 1,
-		// 	title: '睡觉',
-		// 	completed: false
-		// },
-		// {
-		// 	id: 2,
-		// 	title: '游戏',
-		// 	completed: false
-		// },
-	];
+
 var app = new Vue({
 		data:{
-			todos,
+			todos:JSON.parse(window.localStorage.getItem('todos')? window.localStorage.getItem('todos'):'[]'),
 			currentEiditing:''
 		},
 		computed:{
 			remainCount(){
 				return this.todos.filter(item => !item.completed).length
+			},
+			toggleAllStatus: {
+				get() {
+					return this.todos.every(item => item.completed);
+				},
+				set() {
+					const checked = !this.toggleAllStatus;
+					this.todos.forEach(item => {
+					  	item.completed = checked
+					})
+				}
 			}
 
+		},
+		watch:{
+			todos:{
+				handler(){
+					window.localStorage.setItem('todos',JSON.stringify(this.todos))
+				},
+				deep:true
+			}
 		},
 		methods:{
 			handleAddTodo(e){
@@ -40,13 +43,6 @@ var app = new Vue({
 				   })
 			   }
 			   target.value = ""
-			},
-			handleToggleAll(e){
-				const checked = e.target.checked;
-				this.todos.forEach(item => {
-					item.completed = checked
-				})
-
 			},
 			handleRemoveTodo(index){
               this.todos.splice(index,1)

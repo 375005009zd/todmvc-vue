@@ -21,7 +21,7 @@
 		
 		 <template v-if="todos.length">
 			<section class="main">
-				<input id="toggle-all" class="toggle-all" type="checkbox" @change="handleToggleAll">
+				<input id="toggle-all" class="toggle-all" type="checkbox" v-model="toggleAllStatus" >
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
 					<!-- These are here just to show the structure of the list items -->

@@ -1,10 +1,32 @@
 
 (function (window) {
 
-var app = new Vue({
+		// 注册一个全局自定义指令 `v-focus`
+		Vue.directive('focus', {
+			// 当被绑定的元素插入到 DOM 中时……
+			inserted: function (el) {
+			// 聚焦元素
+			el.focus()
+			}
+		})
+
+		// 注册一个全局自定义指令 `v-dbl-focus`
+		Vue.directive('dbl-focus', {
+			// 当被绑定的元素插入到 DOM 中时……
+			update: function (el,binding) {
+				if(binding){
+					// 聚焦元素
+					el.focus()
+				}
+			
+			}
+		})
+
+   window.app = new Vue({
 		data:{
 			todos:JSON.parse(window.localStorage.getItem('todos')? window.localStorage.getItem('todos'):'[]'),
-			currentEiditing:''
+			currentEiditing:'',
+			filterStatus:''
 		},
 		computed:{
 			remainCount(){
@@ -68,8 +90,25 @@ var app = new Vue({
 					   i--
 				  }
 			   }
+			},
+			filterTodos() {
+				if(this.filterStatus === "completed"){
+                  return this.todos.filter(item => item.completed)
+				}else if(this.filterStatus === "active"){
+					return this.todos.filter(item => !item.completed)
+				}else{
+		            return this.todos
+				}
 			}
 		}
 		
 	}).$mount('#app');
+
+   window.onhashchange = function(){
+	 
+	   var hash = window.location.hash.slice(2);
+	   app.filterStatus = hash
+	   
+   }
+	  
 })(window);

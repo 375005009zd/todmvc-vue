@@ -2,11 +2,18 @@
   "private": true,
   "dependencies": {
     "browser-sync": "^2.26.5",
+    "css-loader": "^2.1.1",
     "todomvc-app-css": "^2.0.0",
     "todomvc-common": "^1.0.0",
     "vue": "^2.6.10"
   },
   "scripts": {
-    "dev" : "browser-sync start --server --files '**/*.css, **/*.html,**/*.js'"
+      "dev": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "vuex": "^3.1.1",
+    "webpack": "^4.33.0",
+    "webpack-cli": "^3.3.3",
+    "webpack-dev-server": "^3.7.1"
   }
 }
